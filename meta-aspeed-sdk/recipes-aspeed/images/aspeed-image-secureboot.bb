@@ -28,6 +28,18 @@ ASPEED_SECURE_BOOT_CONFIG_ROOT_DIR ?= "${STAGING_DATADIR_NATIVE}"
 OUTPUT_IMAGE_DIR ?= "${S}/output"
 SOURCE_IMAGE_DIR ?= "${S}/source"
 
+KEY_DIR="${ROOT_DIR}/aspeed-secure-config/ast2600/security/key"
+SIGNING_HELPER="${ROOT_DIR}/aspeed-secure-config/signing_helper.sh"
+# SIGNING_HELPER_WITH_FILES="${ROOT_DIR}/aspeed-secure-config/signing_helper_with_files.sh"
+
+# OTP secure image
+OTP_CONFIG="${ROOT_DIR}/aspeed-secure-config/ast2600/security/otp/evbA2_RSA4096_SHA512.json"
+
+# ROT secure image
+ROT_ALGORITHM="RSA4096_SHA512"
+ROT_SIGN_KEY="${KEY_DIR}/test_oem_dss_private_key_4096_1.pem"
+KEY_ORDER="little"
+
 print_otp_image() {
     if [ "${OTP_CONFIG}" != "" ]; then
         echo "Printing OTP Image ..."
@@ -127,19 +139,19 @@ do_deploy () {
         exit 1
     fi
 
-    if [ -f ${ASPEED_SECURE_BOOT_CONFIG} ]; then
-        source ${ASPEED_SECURE_BOOT_CONFIG}
-    else
-        bbwarn "User secure boot config not found!, ${ASPEED_SECURE_BOOT_CONFIG}"
+    # if [ -f ${ASPEED_SECURE_BOOT_CONFIG} ]; then
+    #     source ${ASPEED_SECURE_BOOT_CONFIG}
+    # else
+    #     bbwarn "User secure boot config not found!, ${ASPEED_SECURE_BOOT_CONFIG}"
 
-        if [ ! -f ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG} ]; then
-            echo "aspeed secure boot config not found!, ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG}"
-            exit 1
-        fi
+    #     if [ ! -f ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG} ]; then
+    #         echo "aspeed secure boot config not found!, ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG}"
+    #         exit 1
+    #     fi
 
-        source ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG}
-        bbwarn "Using an aspeed insecure config signing key!, ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG}"
-    fi
+    #     source ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG}
+    #     bbwarn "Using an aspeed insecure config signing key!, ${STAGING_DATADIR_NATIVE}/aspeed-secure-config/${ASPEED_SECURE_BOOT_TARGET}/${ASPEED_SECURE_BOOT_CONFIG}"
+    # fi
 
     if [ -d ${SOURCE_IMAGE_DIR} ]; then
         rm -rf ${SOURCE_IMAGE_DIR}
