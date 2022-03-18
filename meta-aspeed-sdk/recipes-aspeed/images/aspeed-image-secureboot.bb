@@ -40,6 +40,7 @@ ROT_ALGORITHM="AES_RSA4096_SHA512"
 ROT_SIGN_KEY="${KEY_DIR}/test_oem_dss_private_key_4096_1.pem"
 KEY_ORDER="big"
 AES_KEY="${KEY_DIR}/test_aes_key.bin"
+RSA_AES_KEY="${KEY_DIR}/test_soc_public_key_4096.pem"
 AES_KEY_IN_OTP="1"
 
 print_otp_image() {
