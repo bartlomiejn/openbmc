@@ -28,20 +28,19 @@ ASPEED_SECURE_BOOT_CONFIG_ROOT_DIR ?= "${STAGING_DATADIR_NATIVE}"
 OUTPUT_IMAGE_DIR ?= "${S}/output"
 SOURCE_IMAGE_DIR ?= "${S}/source"
 
+# Added
+
 KEY_DIR="${ROOT_DIR}/aspeed-secure-config/ast2600/security/key"
 SIGNING_HELPER="${ROOT_DIR}/aspeed-secure-config/signing_helper.sh"
 # SIGNING_HELPER_WITH_FILES="${ROOT_DIR}/aspeed-secure-config/signing_helper_with_files.sh"
 
 # OTP secure image
-OTP_CONFIG="${ROOT_DIR}/aspeed-secure-config/ast2600/security/otp/evbA3_RSA4096_SHA512_o1.json"
+OTP_CONFIG="${ROOT_DIR}/aspeed-secure-config/ast2600/security/otp/evbA2_RSA4096_SHA512.json"
 
 # ROT secure image
-ROT_ALGORITHM="AES_RSA4096_SHA512"
+ROT_ALGORITHM="RSA4096_SHA512"
 ROT_SIGN_KEY="${KEY_DIR}/test_oem_dss_private_key_4096_1.pem"
-KEY_ORDER="big"
-AES_KEY="${KEY_DIR}/test_aes_key.bin"
-RSA_AES_KEY="${KEY_DIR}/test_soc_public_key_4096.pem"
-AES_KEY_IN_OTP="1"
+KEY_ORDER="little"
 
 print_otp_image() {
     if [ "${OTP_CONFIG}" != "" ]; then
